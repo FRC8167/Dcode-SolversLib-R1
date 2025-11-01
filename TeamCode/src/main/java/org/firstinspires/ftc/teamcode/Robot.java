@@ -4,6 +4,7 @@ import com.pedropathing.follower.Follower;
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.seattlesolvers.solverslib.hardware.SensorColor;
 import com.seattlesolvers.solverslib.hardware.motors.MotorEx;
 
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.SubSystems.MecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.Intake;
+import org.firstinspires.ftc.teamcode.SubSystems.Sensor_IMU;
 
 import java.util.List;
 
@@ -31,15 +33,15 @@ public class Robot extends com.seattlesolvers.solverslib.command.Robot {
         TELEOP
     }
     public static OpModeType OP_MODE_TYPE;
+
     static List<LynxModule> ctrlHubs;
 
     public Follower follower;
     public GoBildaPinpointDriver pinpoint;
-//    public IMU imu;
 
     /* ******************************** SubSystems ******************************** */
-    public MecanumDrive drive;
-    public Intake intake;
+    MecanumDrive drive;
+    Intake intake;
 //    public Shooter shooter;
 //    public Vision vision;
 
@@ -47,6 +49,7 @@ public class Robot extends com.seattlesolvers.solverslib.command.Robot {
     public SensorColor colorSensor;
     public WebcamName webCam1;
 //    public Limelight3A limelight;
+    private Sensor_IMU imu;
 
 
 
@@ -80,9 +83,13 @@ public class Robot extends com.seattlesolvers.solverslib.command.Robot {
         webCam1 = hardwareMap.get(WebcamName.class, "Webcam1");
         //limelight = hwMap.get(Limelight3A.class, "limelight");
 
+        IMU imuSensor = hardwareMap.get(IMU.class, "imu");
+
+
         //Instantiate Subsystems
-        drive   = new MecanumDrive(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
-        intake  = new Intake(intakeMotor);
+        drive  = new MecanumDrive(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
+        intake = new Intake(intakeMotor);
+        imu    = Sensor_IMU.getInstance(imuSensor);
 //        shooter = new Shooter(shooterMotors, shooterEncoder);
 //        vision  = new Vision(webCam1);
 
