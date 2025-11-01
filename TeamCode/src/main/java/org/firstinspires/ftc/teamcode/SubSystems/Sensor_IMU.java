@@ -16,12 +16,13 @@ public class Sensor_IMU extends SubsystemBase {
     private final IMU imu;
     private double yawAngle, yawRate;
 
-    // Static variable to hold a single_instance of type Singleton
     private static Sensor_IMU single_instance = null;
 
-    // Constructor
-    // Here we will be creating private constructor restricted to this class itself
-    private Sensor_IMU(IMU imu_sensor) {
+    /**
+     * Constructor
+     * @param imu_sensor    IMU sensor in the control hub
+     */
+     private Sensor_IMU(IMU imu_sensor) {
         imu = imu_sensor;
 
         // This needs to be changed to match the orientation on your robot
@@ -32,6 +33,7 @@ public class Sensor_IMU extends SubsystemBase {
         imu.initialize(new IMU.Parameters(orientationOnRobot));
     }
 
+
     // Static method to create instance of Singleton class
     // Add any arguments required to create the object
     public static synchronized Sensor_IMU getInstance(IMU imu_sensor)
@@ -41,7 +43,6 @@ public class Sensor_IMU extends SubsystemBase {
 
         return single_instance;
     }
-
 
 
     /* ********************* Class Member Functions ********************* */
@@ -56,10 +57,16 @@ public class Sensor_IMU extends SubsystemBase {
     public double currentHeading() { return yawAngle; }
     public double currentHeadingDeg() { return yawAngle * 180 / Math.PI; }
     public double yawRate() { return yawRate; }
-    public double yawRateDPS() { return yawRate; }
+    public double yawRateDPS() { return yawRate *180 / Math.PI; }
 
     public void zeroize() {
         imu.resetYaw();
+    }
+
+
+    @Override
+    public void periodic() {
+        readIMU();
     }
 
 }

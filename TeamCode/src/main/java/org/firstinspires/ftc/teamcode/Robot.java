@@ -49,7 +49,7 @@ public class Robot extends com.seattlesolvers.solverslib.command.Robot {
     public SensorColor colorSensor;
     public WebcamName webCam1;
 //    public Limelight3A limelight;
-    private Sensor_IMU imu;
+    public Sensor_IMU imu;
 
 
 

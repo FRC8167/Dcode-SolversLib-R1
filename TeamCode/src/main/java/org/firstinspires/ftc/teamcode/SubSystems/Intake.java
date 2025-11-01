@@ -61,11 +61,11 @@ public class Intake extends SubsystemBase{
         }
         setIntakeState();
     }
+
+
     @Override
     public void periodic() {
         setIntakeState();
-
-
     }
 }
 
