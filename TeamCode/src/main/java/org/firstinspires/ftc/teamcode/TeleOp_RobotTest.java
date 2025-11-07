@@ -11,6 +11,7 @@ import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 
 import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
+import org.firstinspires.ftc.teamcode.Commands.DriveFieldCentric;
 import org.firstinspires.ftc.teamcode.Commands.SetIntake;
 import org.firstinspires.ftc.teamcode.Commands.ToggleIntakeCommand;
 import org.firstinspires.ftc.teamcode.SubSystems.Intake;
@@ -58,10 +59,15 @@ public class TeleOp_RobotTest extends CommandOpMode {
         intakeReverse.whileHeld( new SetIntake(robot.intake, Intake.MotorState.REVERSE));
         intakePassive.whileHeld( new SetIntake(robot.intake, Intake.MotorState.PASSIVE));
 
+        /* Engage Drive Snail Mode */
         driver.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed (new InstantCommand(robot.drive::enableSnailDrive))
                 .whenReleased(new InstantCommand(robot.drive::disableSnailDrive));
 
+        /* Drive Field Centric */
+        driver.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                .whenPressed (new DriveFieldCentric(robot.drive, gamepad1 ,robot.imu))
+                .whenReleased(new InstantCommand(robot.drive::disableSnailDrive));
 
         robot.follower = Constants.createFollower(hardwareMap);
         robot.follower.setStartingPose(startPose);

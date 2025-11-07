@@ -22,6 +22,9 @@ public class MecanumDrive extends SubsystemBase {
     private final double DEGRADE_AUTHORITY = 0.35;
     private final double MAX_AUTHORITY = 0.85;
 
+//    private enum Modes { ROBO_CENTRIC, FIELD_CENTRIC, CONSTANT_HEADING }
+//    private Modes mode = Modes.ROBO_CENTRIC;
+
     public MecanumDrive(MotorEx leftFront, MotorEx leftRear, MotorEx rightFront, MotorEx rightRear) {
 
         this.frontLeft  = leftFront;
@@ -44,27 +47,6 @@ public class MecanumDrive extends SubsystemBase {
 
         // Initialize motors
         setMotorPower(0,0,0,0);
-    }
-
-
-    /**
-     * Low-level method: set motor power directly
-     */
-    public void setMotorPower(double lf, double rf, double lr, double rr) {
-        frontLeft.set(lf);
-        frontRight.set(rf);
-        backLeft.set(lr);
-        backRight.set(rr);
-    }
-
-
-    public void enableSnailDrive() {
-        controlAuthority = DEGRADE_AUTHORITY;
-    }
-
-
-    public void disableSnailDrive() {
-        controlAuthority = MAX_AUTHORITY;
     }
 
 
@@ -114,7 +96,6 @@ public class MecanumDrive extends SubsystemBase {
         }
 
         drive(driveCmd, strafeCmd, newTurnCmd);
-
     }
 
 
@@ -142,8 +123,30 @@ public class MecanumDrive extends SubsystemBase {
         drive(newForward, newRight, rotate);
     }
 
+
+    /**
+     * Low-level method: set motor power directly
+     */
+    public void setMotorPower(double lf, double rf, double lr, double rr) {
+        frontLeft.set(lf);
+        frontRight.set(rf);
+        backLeft.set(lr);
+        backRight.set(rr);
+    }
+
+
     @Override
     public void periodic() {}
 
+
+    public void enableSnailDrive()  { controlAuthority = DEGRADE_AUTHORITY; }
+    public void disableSnailDrive() {
+        controlAuthority = MAX_AUTHORITY;
+    }
     public double getControlAuthority() { return controlAuthority;}
+
+
+
+
+
 }
